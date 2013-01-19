@@ -21,3 +21,9 @@ TODO
 - angelscript
 - nasal
 
+
+LICENSE
+=======
+
+Look at the individual packages for specific license information.
+
