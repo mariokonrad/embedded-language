@@ -17,12 +17,13 @@
 # TODO: Nasal (http://www.plausible.org/nasal/) LICENSE:???
 # TODO: dscript (http://boost-spirit.com/repository/applications/show_contents.php) LICENSE:???
 # TODO: delta (http://www.ics.forth.gr/hci/files/plang/Delta/Delta.html) LICENSE:???
+# TODO: guile (https://gnu.org/software/guile/) LICENSE:???
 
 export CXX=g++
 export RM=rm -f
 export MV=mv -f
 
-export PREFIX=$(CURDIR)
+export PREFIX=$(CURDIR)/local
 
 export BIN_DIR=$(PREFIX)/bin
 export LIB_DIR=$(PREFIX)/lib
@@ -32,6 +33,7 @@ export INC_DIR_LUA=$(INC_DIR)/lua
 export INC_DIR_JS=$(INC_DIR)/js
 export INC_DIR_TINYSCHEME=$(INC_DIR)/tinyscheme
 export INC_DIR_ECL=$(INC_DIR)
+export INC_DIR_GUILE=$(INC_DIR)
 
 all :
 	$(MAKE) directories
@@ -49,6 +51,7 @@ directories :
 	mkdir -p $(INC_DIR_JS)
 	mkdir -p $(INC_DIR_TINYSCHEME)
 	mkdir -p $(INC_DIR_ECL)/ecl
+	mkdir -p $(INC_DIR_GUILE)
 	# TODO: elk
 
 lua : directories
@@ -96,8 +99,14 @@ elk-install : directories
 elk-examples :
 	# TODO
 
+guile : directories
+	$(MAKE) -C build guile
+
+guile-install : directories
+	$(MAKE) -C build guile-install
+
 clean :
 	$(MAKE) -C build clean
 	$(MAKE) -C src clean
-	$(RM) -r bin include lib man
+	$(RM) -fr $(PREFIX)
 

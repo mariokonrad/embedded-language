@@ -3,13 +3,15 @@
 	spidermonkey spidermonkey-install \
 	tinyscheme tinyscheme-install \
 	ecl ecl-install \
-	elk elk-install
+	elk elk-install \
+	guile guile-install
 
 export LUA=lua-5.1.4
 export JS=js-1.8.0-rc1
 export TINYSCHEME=tinyscheme1.39
 export ECL=ecl-10.2.1
 export ELK=elk-3.0
+export GUILE=guile-2.0.7
 
 export LUA_BINS=\
 	$(LUA)/src/lua \
@@ -72,6 +74,7 @@ all : \
 	lua lua-install \
 	spidermonkey spidermonkey-install \
 	tinyscheme tinyscheme-install \
+	guile guile-install \
 	ecl ecl-install \
 	elk elk-install
 
@@ -111,7 +114,7 @@ tinyscheme-install :
 ecl :
 	tar -xzf $(ECL).tgz
 	cd $(ECL) && ./configure --prefix=$(PREFIX)
-	make -C $(ECL)
+	$(MAKE) -C $(ECL)
 	$(MAKE) ecl-install
 
 ecl-install :
@@ -122,14 +125,23 @@ ecl-install :
 	$(MAKE) -C $(ECL) install
 
 elk :
-	# TODO
+	# TODO: build elk
 
 elk-install :
-	# TODO
+	# TODO: install elk
+
+guile :
+	tar -xzf $(GUILE).tar.gz
+	cd $(GUILE) && ./configure --prefix=$(PREFIX)
+	$(MAKE) -C $(GUILE)
+
+guile-install :
+	$(MAKE) -C $(GUILE) install
 
 clean :
 	rm -fr $(LUA)
 	rm -fr $(JS) js
 	rm -fr $(TINYSCHEME)
 	rm -fr $(ECL)
+	rm -fr $(GUILE)
 
