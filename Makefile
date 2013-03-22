@@ -4,6 +4,7 @@
 	spidermonkey spidermonkey-install \
 	tinyscheme tinyscheme-install \
 	ecl ecl-install \
+	chicken chicken-install \
 	directories
 
 # TODO: SIOD (http://people.delphiforums.com/gjc/siod.html) LICENSE:???
@@ -104,6 +105,12 @@ guile : directories
 
 guile-install : directories
 	$(MAKE) -C build guile-install
+
+chicken : directories
+	$(MAKE) -C build chicken
+
+chicken-install :
+	$(MAKE) -C build chicken-install
 
 clean :
 	$(MAKE) -C build clean

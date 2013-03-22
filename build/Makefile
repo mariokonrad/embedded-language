@@ -4,7 +4,8 @@
 	tinyscheme tinyscheme-install \
 	ecl ecl-install \
 	elk elk-install \
-	guile guile-install
+	guile guile-install \
+	chicken chicken-install
 
 export LUA=lua-5.1.4
 export JS=js-1.8.0-rc1
@@ -12,6 +13,7 @@ export TINYSCHEME=tinyscheme1.39
 export ECL=ecl-10.2.1
 export ELK=elk-3.0
 export GUILE=guile-2.0.7
+export CHICKEN=chicken-4.8.0.3
 
 export LUA_BINS=\
 	$(LUA)/src/lua \
@@ -138,10 +140,19 @@ guile :
 guile-install :
 	$(MAKE) -C $(GUILE) install
 
+chicken :
+	tar -xzf $(CHICKEN).tar.gz
+	cd $(CHICKEN) && mkdir local && make PLATFORM=linux PREFIX=local
+	$(MAKE) chicken-install
+
+chicken-install :
+	cd $(CHICKEN) && make PLATFORM=linux PREFIX=local install
+
 clean :
 	rm -fr $(LUA)
 	rm -fr $(JS) js
 	rm -fr $(TINYSCHEME)
 	rm -fr $(ECL)
 	rm -fr $(GUILE)
+	rm -fr $(CHICKEN)
 

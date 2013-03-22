@@ -1,6 +1,6 @@
-.PHONY: all clean lua js tinyscheme ecl
+.PHONY: all clean lua js tinyscheme ecl chicken
 
-all : lua js tinyscheme ecl
+all : lua js tinyscheme ecl chicken
 
 lua :
 	$(MAKE) -C lua all
@@ -14,9 +14,13 @@ tinyscheme :
 ecl :
 	$(MAKE) -C ecl all
 
+chicken :
+	$(MAKE) -C chicken all
+
 clean :
 	$(MAKE) -C lua clean
 	$(MAKE) -C js clean
 	$(MAKE) -C tinyscheme clean
 	$(MAKE) -C ecl clean
+	$(MAKE) -C chicken clean
 

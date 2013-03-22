@@ -10,6 +10,7 @@ DONE
 - JavaScript 1.8.0 (SpiderMonkey)
 - ECL 10.2.1 (http://ecls.sourceforge.net/download.html)
 - TinyScheme 1.39 (http://tinyscheme.sourceforge.net/)
+- chicken 4.8.0.3 (http://www.call-cc.org/)
 
 TODO
 ----
