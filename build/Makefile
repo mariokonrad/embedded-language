@@ -1,19 +1,4 @@
-.PHONY: all clean \
-	lua lua-install \
-	spidermonkey spidermonkey-install \
-	tinyscheme tinyscheme-install \
-	ecl ecl-install \
-	elk elk-install \
-	guile guile-install \
-	chicken chicken-install
-
-export LUA=lua-5.1.4
-export JS=js-1.8.0-rc1
-export TINYSCHEME=tinyscheme1.39
-export ECL=ecl-10.2.1
-export ELK=elk-3.0
-export GUILE=guile-2.0.7
-export CHICKEN=chicken-4.8.0.3
+.PHONY: all clean lua spidermonkey tinyscheme ecl elk guile chicken
 
 export LUA_BINS=\
 	$(LUA)/src/lua \
@@ -71,55 +56,73 @@ export ELK_DOCS=
 export ELK_LIBS=
 export ELK_INCS=
 
+export CHICKEN_BINS=
+export CHICKEN_DOCS=
+export CHICKEN_LIBS=
+export CHICKEN_INCS=
+
+export SQUIRREL_BINS=\
+	SQUIRREL3/bin/sq
+export SQUIRREL_DOCS=
+export SQUIRREL_LIBS=\
+	SQUIRREL3/lib/libsqstdlib.a \
+	SQUIRREL3/lib/libsquirrel.a
+export SQUIRREL_INCS=\
+	SQUIRREL3/include/sqstdaux.h \
+	SQUIRREL3/include/sqstdblob.h \
+	SQUIRREL3/include/sqstdio.h \
+	SQUIRREL3/include/sqstdmath.h \
+	SQUIRREL3/include/sqstdstring.h \
+	SQUIRREL3/include/sqstdsystem.h \
+	SQUIRREL3/include/squirrel.h
 
 all : \
-	lua lua-install \
-	spidermonkey spidermonkey-install \
-	tinyscheme tinyscheme-install \
-	guile guile-install \
-	ecl ecl-install \
-	elk elk-install
+	lua \
+	spidermonkey \
+	tinyscheme \
+	chicken \
+	squirrel \
+	ecl \
+	elk
+
+#	guile
 
 lua :
+	# build
 	tar -xzf $(LUA).tar.gz
 	$(MAKE) -C $(LUA) ansi
-	$(MAKE) lua-install
-
-lua-install :
+	# install
 	cp $(LUA_BINS) $(BIN_DIR)
 	cp $(LUA_DOCS) $(DOC_DIR)
 	cp $(LUA_LIBS) $(LIB_DIR)
 	cp $(LUA_INCS) $(INC_DIR_LUA)
 
 spidermonkey :
+	# build
 	tar -xzf $(JS).tar.gz
 	$(MAKE) -C js/src -f Makefile.ref
-	$(MAKE) spidermonkey-install
-
-spidermonkey-install :
+	# install
 	cp $(JS_BINS) $(BIN_DIR)
 	#cp $(JS_DOCS) $(DOC_DIR)
 	cp $(JS_LIBS) $(LIB_DIR)
 	cp $(JS_INCS) $(INC_DIR_JS)
 
 tinyscheme :
+	# build
 	tar -xzf $(TINYSCHEME).tar.gz
 	make -C $(TINYSCHEME) -f makefile
-	$(MAKE) tinyscheme-install
-
-tinyscheme-install :
+	# install
 	cp $(TINYSCHEME_BINS) $(BIN_DIR)
 	#cp $(TINYSCHEME_DOCS) $(DOC_DIR)
 	cp $(TINYSCHEME_LIBS) $(LIB_DIR)
 	cp $(TINYSCHEME_INCS) $(INC_DIR_TINYSCHEME)
 
 ecl :
+	# build
 	tar -xzf $(ECL).tgz
 	cd $(ECL) && ./configure --prefix=$(PREFIX)
 	$(MAKE) -C $(ECL)
-	$(MAKE) ecl-install
-
-ecl-install :
+	# install
 	#cp $(ECL_BINS) $(BIN_DIR)
 	#cp $(ECL_DOCS) $(DOC_DIR)
 	#cp $(ECL_LIBS) $(LIB_DIR)
@@ -127,26 +130,35 @@ ecl-install :
 	$(MAKE) -C $(ECL) install
 
 elk :
+	# build
 	# TODO: build elk
-
-elk-install :
+	# install
 	# TODO: install elk
 
 guile :
+	# build
 	tar -xzf $(GUILE).tar.gz
 	cd $(GUILE) && ./configure --prefix=$(PREFIX)
 	$(MAKE) -C $(GUILE)
-
-guile-install :
+	# install
 	$(MAKE) -C $(GUILE) install
 
 chicken :
+	# build
 	tar -xzf $(CHICKEN).tar.gz
-	cd $(CHICKEN) && mkdir local && make PLATFORM=linux PREFIX=local
-	$(MAKE) chicken-install
+	cd $(CHICKEN) && mkdir local && make PLATFORM=linux PREFIX=$(PREFIX)
+	# install
+	cd $(CHICKEN) && make PLATFORM=linux PREFIX=$(PREFIX) install
 
-chicken-install :
-	cd $(CHICKEN) && make PLATFORM=linux PREFIX=local install
+squirrel :
+	# build
+	tar -xzf $(SQUIRREL).tar.gz
+	cd SQUIRREL3 && make
+	# install
+	cp $(SQUIRREL_BINS) $(BIN_DIR)
+	#cp $(SQUIRREL_DOCS) $(DOC_DIR)
+	cp $(SQUIRREL_LIBS) $(LIB_DIR)
+	cp $(SQUIRREL_INCS) $(INC_DIR_SQUIRREL)
 
 clean :
 	rm -fr $(LUA)
@@ -155,4 +167,5 @@ clean :
 	rm -fr $(ECL)
 	rm -fr $(GUILE)
 	rm -fr $(CHICKEN)
+	rm -fr SQUIRREL3
 

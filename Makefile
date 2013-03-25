@@ -1,11 +1,12 @@
-.PHONY: all clean \
-	examples lua-examples js-examples tinyscheme-examples ecl-examples \
-	lua lua-install \
-	spidermonkey spidermonkey-install \
-	tinyscheme tinyscheme-install \
-	ecl ecl-install \
-	chicken chicken-install \
-	directories
+.PHONY: all clean
+.PHONY: examples
+.PHONY: lua lua-examples
+.PHONY: spidermonkey js-examples
+.PHONY: tinyscheme tinyscheme-examples
+.PHONY: ecl ecl-examples
+.PHONY: chicken chicken-examples
+.PHONY: squirrel
+.PHONY: directories
 
 # TODO: SIOD (http://people.delphiforums.com/gjc/siod.html) LICENSE:???
 #            (http://siod.codeplex.com/) LICENSE:LGPL
@@ -26,6 +27,15 @@ export MV=mv -f
 
 export PREFIX=$(CURDIR)/local
 
+export LUA=lua-5.1.4
+export JS=js-1.8.0-rc1
+export TINYSCHEME=tinyscheme1.39
+export ECL=ecl-10.2.1
+export ELK=elk-3.0
+export GUILE=guile-2.0.7
+export CHICKEN=chicken-4.8.0.3
+export SQUIRREL=squirrel_3_0_4_stable
+
 export BIN_DIR=$(PREFIX)/bin
 export LIB_DIR=$(PREFIX)/lib
 export DOC_DIR=$(PREFIX)/man
@@ -35,6 +45,7 @@ export INC_DIR_JS=$(INC_DIR)/js
 export INC_DIR_TINYSCHEME=$(INC_DIR)/tinyscheme
 export INC_DIR_ECL=$(INC_DIR)
 export INC_DIR_GUILE=$(INC_DIR)
+export INC_DIR_SQUIRREL=$(INC_DIR)/squirrel
 
 all :
 	$(MAKE) directories
@@ -53,13 +64,11 @@ directories :
 	mkdir -p $(INC_DIR_TINYSCHEME)
 	mkdir -p $(INC_DIR_ECL)/ecl
 	mkdir -p $(INC_DIR_GUILE)
+	mkdir -p $(INC_DIR_SQUIRREL)
 	# TODO: elk
 
 lua : directories
 	$(MAKE) -C build lua
-
-lua-install :  directories
-	$(MAKE) -C build lua-install
 
 lua-examples :
 	$(MAKE) -C src lua
@@ -67,17 +76,11 @@ lua-examples :
 spidermonkey : directories
 	$(MAKE) -C build spidermonkey
 
-spidermonkey-install : directories
-	$(MAKE) -C build spidermonkey-install
-
 js-examples :
 	$(MAKE) -C src js
 
 tinyscheme : directories
 	$(MAKE) -C build tinyscheme
-
-tinyscheme-install : directories
-	$(MAKE) -C build tinyscheme-install
 
 tinyscheme-examples :
 	$(MAKE) -C src tinyscheme
@@ -85,17 +88,11 @@ tinyscheme-examples :
 ecl : directories
 	$(MAKE) -C build ecl
 
-ecl-install : directories
-	$(MAKE) -C build ecl-install
-
 ecl-examples :
 	$(MAKE) -C src ecl
 
 elk : directories
 	$(MAKE) -C build elk
-
-elk-install : directories
-	$(MAKE) -C build elk-install
 
 elk-examples :
 	# TODO
@@ -103,14 +100,14 @@ elk-examples :
 guile : directories
 	$(MAKE) -C build guile
 
-guile-install : directories
-	$(MAKE) -C build guile-install
-
 chicken : directories
 	$(MAKE) -C build chicken
 
-chicken-install :
-	$(MAKE) -C build chicken-install
+chicken-examples :
+	$(MAKE) -C src chicken
+
+squirrel : directories
+	$(MAKE) -C build squirrel
 
 clean :
 	$(MAKE) -C build clean
