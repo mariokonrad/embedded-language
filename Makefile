@@ -6,6 +6,7 @@
 .PHONY: ecl ecl-examples
 .PHONY: chicken chicken-examples
 .PHONY: squirrel
+.PHONY: dscript
 .PHONY: directories
 
 # TODO: SIOD (http://people.delphiforums.com/gjc/siod.html) LICENSE:???
@@ -46,6 +47,7 @@ export INC_DIR_TINYSCHEME=$(INC_DIR)/tinyscheme
 export INC_DIR_ECL=$(INC_DIR)
 export INC_DIR_GUILE=$(INC_DIR)
 export INC_DIR_SQUIRREL=$(INC_DIR)/squirrel
+export INC_DIR_DSCRIPT=$(INC_DIR)/dscript
 
 all :
 	$(MAKE) directories
@@ -65,6 +67,7 @@ directories :
 	mkdir -p $(INC_DIR_ECL)/ecl
 	mkdir -p $(INC_DIR_GUILE)
 	mkdir -p $(INC_DIR_SQUIRREL)
+	mkdir -p $(INC_DIR_DSCRIPT)
 	# TODO: elk
 
 lua : directories
@@ -108,6 +111,9 @@ chicken-examples :
 
 squirrel : directories
 	$(MAKE) -C build squirrel
+
+dscript : directories
+	$(MAKE) -C build dscript
 
 clean :
 	$(MAKE) -C build clean

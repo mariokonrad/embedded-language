@@ -1,4 +1,4 @@
-.PHONY: all clean lua spidermonkey tinyscheme ecl elk guile chicken
+.PHONY: all clean lua spidermonkey tinyscheme ecl elk guile chicken dscript
 
 export LUA_BINS=\
 	$(LUA)/src/lua \
@@ -82,6 +82,7 @@ all : \
 	tinyscheme \
 	chicken \
 	squirrel \
+	dscript \
 	ecl \
 	elk
 
@@ -160,6 +161,28 @@ squirrel :
 	cp $(SQUIRREL_LIBS) $(LIB_DIR)
 	cp $(SQUIRREL_INCS) $(INC_DIR_SQUIRREL)
 
+dscript/%.o : dscript/%.cpp
+	g++ -o $@ -c $< -O2 -Idscript
+
+dscript :
+	# build
+	unzip dscript.zip
+	$(MAKE) dscript/libdscript.a
+	# install
+
+dscript/libdscript.a : \
+		dscript/compiler.o \
+		dscript/compiler_save.o \
+		dscript/context.o \
+		dscript/floattable.o \
+		dscript/functions.o \
+		dscript/opcodes.o \
+		dscript/stdlib.o \
+		dscript/stringtable.o \
+		dscript/value.o \
+		dscript/vmachine.o
+	cd dscript && ar rcs $@ $^
+
 clean :
 	rm -fr $(LUA)
 	rm -fr $(JS) js
@@ -168,4 +191,5 @@ clean :
 	rm -fr $(GUILE)
 	rm -fr $(CHICKEN)
 	rm -fr SQUIRREL3
+	rm -fr dscript
 
