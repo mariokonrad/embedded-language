@@ -82,11 +82,11 @@ all : \
 	tinyscheme \
 	chicken \
 	squirrel \
-	dscript \
 	ecl \
 	elk
 
 #	guile
+#	dscript
 
 lua :
 	# build
